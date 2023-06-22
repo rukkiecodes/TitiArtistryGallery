@@ -1,7 +1,7 @@
 <template>
-    <v-container fluid class="pa-0">
-        <v-card flat class="text-center mt-16">
-            <v-card-text class="text-h5 text-sm-h4 font-weight-bold">Our Latest <span>Works</span></v-card-text>
+    <v-container fluid class="pa-0 mt-16">
+        <v-card flat class="text-center mb-5">
+            <v-card-text class="text-h5 text-sm-h4 font-weight-bold">Our Latest <span class="text-amber-darken-2">Works</span></v-card-text>
         </v-card>
 
         <v-row no-gutters>
