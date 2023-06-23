@@ -7,15 +7,11 @@ export const useWebNavStore = defineStore('webNav', {
         routes: [
             {
                 name: 'Home',
-                to: '/'
+                to: '/home'
             },
             {
                 name: 'Gallery',
                 to: '/gallery'
-            },
-            {
-                name: 'Blog',
-                to: '/blog'
             },
             {
                 name: 'Blog',

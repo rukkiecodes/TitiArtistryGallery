@@ -8,8 +8,33 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: 'web.home1',
         component: () => import('@/views/website/Home.vue'),
+      },
+      {
+        path: 'home',
+        name: 'web.home2',
+        component: () => import('@/views/website/Home.vue'),
+      },
+      {
+        path: 'gallery',
+        name: 'web.gallery',
+        component: () => import('@/views/website/Gallery.vue'),
+      },
+      {
+        path: 'blog',
+        name: 'web.blog',
+        component: () => import('@/views/website/Blog.vue'),
+      },
+      {
+        path: 'contact',
+        name: 'web.contact',
+        component: () => import('@/views/website/Contact.vue'),
+      },
+      {
+        path: 'booking',
+        name: 'web.booking',
+        component: () => import('@/views/website/Booking.vue'),
       },
     ],
   },
