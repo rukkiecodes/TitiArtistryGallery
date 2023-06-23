@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-sheet height="93vh" class="pa-0 ma-0 d-flex align-center justify-center">
+        <v-sheet height="93vh" class="pa-0 ma-0 d-flex align-center justify-center mt-16 mt-sm-0">
             <v-row align="center">
                 <v-col cols="12" sm="5">
                     <v-card flat>
