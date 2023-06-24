@@ -1,13 +1,3 @@
 <template>
-  <h1>Blog View</h1>
+  <router-view />
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>

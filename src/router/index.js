@@ -63,7 +63,18 @@ const routes = [
           },
           {
             path: 'blog',
-            component: () => import('@/views/admin/dashboard/blog/BlogView.vue')
+            component: () => import('@/views/admin/dashboard/blog/BlogView.vue'),
+
+            children: [
+              {
+                path: '',
+                component: () => import('@/views/admin/dashboard/blog/Blogs.vue')
+              },
+              {
+                path: 'newBlog',
+                component: () => import('@/views/admin/dashboard/blog/NewBlog.vue')
+              },
+            ]
           },
           {
             path: 'gallery',
