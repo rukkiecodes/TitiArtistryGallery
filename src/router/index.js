@@ -45,7 +45,31 @@ const routes = [
       {
         path: '',
         name: 'Admin.Home',
-        component: () => import('@/views/Home.vue'),
+        component: () => import('@/views/admin/Auth.vue'),
+      },
+      {
+        path: 'dashboard',
+        name: 'Admin.dashboard',
+        component: () => import('@/views/admin/dashboard/Home.vue'),
+
+        children: [
+          {
+            path: '',
+            component: () => import('@/views/admin/dashboard/website/WebsiteView.vue')
+          },
+          {
+            path: 'website',
+            component: () => import('@/views/admin/dashboard/website/WebsiteView.vue')
+          },
+          {
+            path: 'blog',
+            component: () => import('@/views/admin/dashboard/blog/BlogView.vue')
+          },
+          {
+            path: 'gallery',
+            component: () => import('@/views/admin/dashboard/gallery/GalleryView.vue')
+          }
+        ]
       },
     ],
   },
