@@ -12,6 +12,7 @@
     "@mdi/font": "7.0.96",
     "core-js": "^3.29.0",
     "firebase": "^9.22.2",
+    "gsap": "^3.12.1",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
     "three": "^0.153.0",

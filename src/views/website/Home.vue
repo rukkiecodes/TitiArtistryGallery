@@ -2,6 +2,8 @@
     <Heading />
     <LatestWork />
     <About />
+
+    
     <Contact />
 </template>
 

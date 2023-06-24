@@ -8,8 +8,33 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: 'web.home1',
         component: () => import('@/views/website/Home.vue'),
+      },
+      {
+        path: 'home',
+        name: 'web.home2',
+        component: () => import('@/views/website/Home.vue'),
+      },
+      {
+        path: 'gallery',
+        name: 'web.gallery',
+        component: () => import('@/views/website/Gallery.vue'),
+      },
+      {
+        path: 'blog',
+        name: 'web.blog',
+        component: () => import('@/views/website/Blog.vue'),
+      },
+      {
+        path: 'contact',
+        name: 'web.contact',
+        component: () => import('@/views/website/Contact.vue'),
+      },
+      {
+        path: 'booking',
+        name: 'web.booking',
+        component: () => import('@/views/website/Booking.vue'),
       },
     ],
   },
@@ -20,7 +45,42 @@ const routes = [
       {
         path: '',
         name: 'Admin.Home',
-        component: () => import('@/views/Home.vue'),
+        component: () => import('@/views/admin/Auth.vue'),
+      },
+      {
+        path: 'dashboard',
+        name: 'Admin.dashboard',
+        component: () => import('@/views/admin/dashboard/Home.vue'),
+
+        children: [
+          {
+            path: '',
+            component: () => import('@/views/admin/dashboard/website/WebsiteView.vue')
+          },
+          {
+            path: 'website',
+            component: () => import('@/views/admin/dashboard/website/WebsiteView.vue')
+          },
+          {
+            path: 'blog',
+            component: () => import('@/views/admin/dashboard/blog/BlogView.vue'),
+
+            children: [
+              {
+                path: '',
+                component: () => import('@/views/admin/dashboard/blog/Blogs.vue')
+              },
+              {
+                path: 'newBlog',
+                component: () => import('@/views/admin/dashboard/blog/NewBlog.vue')
+              },
+            ]
+          },
+          {
+            path: 'gallery',
+            component: () => import('@/views/admin/dashboard/gallery/GalleryView.vue')
+          }
+        ]
       },
     ],
   },
