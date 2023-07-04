@@ -63,6 +63,14 @@ export const useAdminBlogStore = defineStore('adminBlog', {
                                     textColor: 'text-white'
                                 }
                             })
+                            .catch(() => {
+                                app.snackbar = {
+                                    active: true,
+                                    color: 'red',
+                                    text: 'Blog post was not saved',
+                                    textColor: 'text-white'
+                                }
+                            })
                     })
             }
         }
