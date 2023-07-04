@@ -68,7 +68,18 @@ const routes = [
             children: [
               {
                 path: '',
-                component: () => import('@/views/admin/dashboard/blog/Blogs.vue')
+                component: () => import('@/views/admin/dashboard/blog/Blogs.vue'),
+
+                children: [
+                  {
+                    path: '',
+                    component: () => import('@/views/admin/dashboard/blog/blogs/Blogs.vue')
+                  },
+                  {
+                    path: ':id',
+                    component: () => import('@/views/admin/dashboard/blog/blogs/Blog.vue')
+                  }
+                ]
               },
               {
                 path: 'newBlog',

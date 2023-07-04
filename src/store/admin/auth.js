@@ -20,14 +20,12 @@ export const useAuthStore = defineStore('auth', {
 
             signInWithEmailAndPassword(auth, this.email, this.password)
                 .then(user => {
-                    console.log(user)
                     this.loading = false
 
-                    localStorage.titiArtCollectionUser = user.user
+                    localStorage.titiArtCollectionUser = JSON.stringify(user.user)
                     router.push('/admin/dashboard')
                 })
                 .catch(error => {
-                    console.log(error)
                     this.loading = false
                 })
         }
