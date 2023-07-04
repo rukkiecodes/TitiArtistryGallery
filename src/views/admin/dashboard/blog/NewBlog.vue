@@ -15,11 +15,14 @@
 
       <v-card-text>
         <v-text-field v-model="blog.title" label="Post title" variant="underlined" color="amber-darken-2" />
-        <v-textarea v-model="blog.blog" label="Post" placeholder="What's on your mind" variant="underlined"
-          color="amber-darken-2" rows="9" auto-grow max-rows="100" />
+
+        <div class="editor" ref="editor" style="min-height: 300px;">
+        </div>
+
+        <div v-html="updateContent" />
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="blog.savePost" :loading="blog.loading" class="bg-amber-darken-2 text-white" rounded="lg" block>Save
+        <v-btn @click="savePost" :loading="blog.loading" class="bg-amber-darken-2 text-white" rounded="lg" block>Save
           Post</v-btn>
       </v-card-actions>
     </v-card>
@@ -28,9 +31,16 @@
 
 <script>
 import { useAdminBlogStore } from '@/store/admin/blog'
+import Quill from 'quill'
+
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 export default {
   data: () => ({
-    previewImage: null
+    previewImage: null,
+    updateContent: ``
   }),
 
   setup() {
@@ -39,6 +49,47 @@ export default {
     return {
       blog
     }
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      let options = {
+        debug: false,
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+
+            ['link', 'image', 'video'], // Added link, image, and video options
+            ['clean']
+
+          ]
+        },
+        placeholder: 'Compose an epic...',
+        readOnly: false,
+        theme: 'snow',
+        height: '400px'
+      };
+
+      let quill = new Quill(this.$refs.editor, options)
+      quill.on('text-change', () => {
+        this.updateContent = quill.root.innerHTML
+        this.blog.body = quill.root.innerHTML
+      })
+    })
   },
 
   methods: {
@@ -54,6 +105,13 @@ export default {
       this.previewImage = URL.createObjectURL(file)
 
       this.image = file
+
+      this.blog.image = file
+    },
+
+    savePost() {
+      // console.log(this.blog.image)
+      this.blog.savePost()
     }
   }
 }

@@ -5,14 +5,18 @@ export const useAdminBlogStore = defineStore('adminBlog', {
     state: () => ({
         image: null,
         title: '',
-        body: '',
+        body: ``,
 
         loading: false
     }),
 
     actions: {
         savePost() {
-
+            console.log({
+                image: this.image,
+                title: this.title,
+                body: this.body
+            })
         }
     }
 })
