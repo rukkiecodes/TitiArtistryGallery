@@ -107,7 +107,6 @@ export default {
     },
 
     savePost() {
-      // console.log(this.blog.image)
       this.blog.savePost()
     }
   }

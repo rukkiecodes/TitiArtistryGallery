@@ -9,20 +9,28 @@
       </v-card-text>
       <input type="file" @change="setImage" style="display: none" id="fileInput">
 
-      <v-card-title>
-        <span><v-icon class="mr-4" size="x-small">mdi-pencil</v-icon> {{ blog?.title }}</span>
+      <v-card-title class="d-flex">
+        <span>
+          <v-icon class="mr-4" size="x-small">mdi-pencil</v-icon>
+          {{ blog?.title }}
 
-        <v-dialog v-model="titleDialog" activator="parent" width="400">
-          <v-card rounded="lg">
-            <v-card-text>
-              <v-text-field variant="underlined" label="Post title" v-model="blog.title" color="amber-darken-4" />
-            </v-card-text>
+          <v-dialog v-model="titleDialog" activator="parent" width="400">
+            <v-card rounded="lg">
+              <v-card-text>
+                <v-text-field variant="underlined" label="Post title" v-model="blog.title" color="amber-darken-4" />
+              </v-card-text>
 
-            <v-card-actions>
-              <v-btn @click="saveTitle" block color="amber-darken-3">Save title</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+              <v-card-actions>
+                <v-btn @click="saveTitle" block color="amber-darken-3">Save title</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </span>
+
+        <v-spacer />
+
+        <v-btn @click="deletePost" :loading="deleteLoading" prepend-icon="mdi-trash-can" rounded="pill" color="red"
+          flat>Delete post</v-btn>
       </v-card-title>
 
       <v-card-text v-html="blog?.body" @click="openBodyDialog" class="mt-5" />
@@ -43,7 +51,7 @@
 </template>
   
 <script>
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/plugins/firebase'
 
 import Quill from 'quill'
@@ -54,11 +62,14 @@ import 'quill/dist/quill.bubble.css'
 import { getStorage, uploadBytesResumable, ref, getDownloadURL, deleteObject } from 'firebase/storage'
 import { useAppStore } from '@/store/app'
 
+const storage = getStorage()
+
 export default {
   data: () => ({
     blog: null,
     titleDialog: false,
     bodyDialog: false,
+    deleteLoading: false
   }),
 
   setup() {
@@ -98,8 +109,6 @@ export default {
 
       const id = await JSON.parse(localStorage.titiArtCollectionUser).uid
 
-      const storage = getStorage()
-
       let link = `blog/${id}/${file.name}`
 
       const storageRef = ref(storage, link)
@@ -123,6 +132,8 @@ export default {
                   text: 'Blog image changes successfully',
                   textColor: 'text-white'
                 }
+
+                this.getBlog(this.$route.params.id)
               })
               .catch(() => { })
           })
@@ -204,6 +215,22 @@ export default {
       quill.on('text-change', () => {
         this.blog.body = quill.root.innerHTML
       })
+    },
+
+    deletePost() {
+      const desertRef = ref(storage, this.blog.imageLink)
+
+      this.deleteLoading = true
+
+
+      deleteObject(desertRef)
+        .then(async () => {
+          await deleteDoc(doc(db, 'blogs', this.$route.params.id))
+          this.$router.go(-1)
+          this.deleteLoading = false
+        }).catch(() => {
+          this.deleteLoading = false
+        });
     }
   }
 }

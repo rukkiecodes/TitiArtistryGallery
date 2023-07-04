@@ -90,8 +90,6 @@ export const useAdminBlogStore = defineStore('adminBlog', {
                 });
 
                 this.blogs = blogs
-
-                console.log(blogs)
             });
 
             return unsubscribe
