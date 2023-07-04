@@ -70,7 +70,7 @@ export default {
             [{ 'font': [] }],
             [{ 'align': [] }],
 
-            ['link', 'image', 'video'], // Added link, image, and video options
+            ['link', 'image'],
             ['clean']
 
           ]

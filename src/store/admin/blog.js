@@ -14,7 +14,9 @@ export const useAdminBlogStore = defineStore('adminBlog', {
         title: '',
         body: ``,
 
-        loading: false
+        loading: false,
+
+        blogs: []
     }),
 
     actions: {
@@ -73,6 +75,26 @@ export const useAdminBlogStore = defineStore('adminBlog', {
                             })
                     })
             }
+        },
+
+        async getBlogs() {
+            const q = collection(db, "blogs")
+
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const blogs = [];
+                querySnapshot.forEach((doc) => {
+                    blogs.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                this.blogs = blogs
+
+                console.log(blogs)
+            });
+
+            return unsubscribe
         }
     }
 })
