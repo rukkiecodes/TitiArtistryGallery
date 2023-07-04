@@ -16,10 +16,7 @@
       <v-card-text>
         <v-text-field v-model="blog.title" label="Post title" variant="underlined" color="amber-darken-2" />
 
-        <div class="editor" ref="editor" style="min-height: 300px;">
-        </div>
-
-        <div v-html="updateContent" />
+        <div class="editor" ref="editor" style="min-height: 300px;" />
       </v-card-text>
       <v-card-actions>
         <v-btn @click="savePost" :loading="blog.loading" class="bg-amber-darken-2 text-white" rounded="lg" block>Save
