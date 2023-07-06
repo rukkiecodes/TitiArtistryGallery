@@ -4,7 +4,7 @@
       <v-card-text>
         <v-sheet @click="clickOnInput" color="grey" width="100%" min-height="200" rounded="lg"
           class="overflow-hidden d-flex align-center justify-center">
-          <v-img :src="blog?.image" cover />
+          <v-img :src="gallery?.image" cover />
         </v-sheet>
       </v-card-text>
       <input type="file" @change="setImage" style="display: none" id="fileInput">
@@ -12,12 +12,12 @@
       <v-card-title class="d-flex">
         <span>
           <v-icon class="mr-4" size="x-small">mdi-pencil</v-icon>
-          {{ blog?.title }}
+          {{ gallery?.title }}
 
           <v-dialog v-model="titleDialog" activator="parent" width="400">
             <v-card rounded="lg">
               <v-card-text>
-                <v-text-field variant="underlined" label="Post title" v-model="blog.title" color="amber-darken-4" />
+                <v-text-field variant="underlined" label="Post title" v-model="gallery.title" color="amber-darken-4" />
               </v-card-text>
 
               <v-card-actions>
@@ -33,12 +33,13 @@
           flat>Delete post</v-btn>
       </v-card-title>
 
-      <v-card-text v-html="blog?.body" @click="openBodyDialog" class="mt-5" />
+      <v-card-text v-html="gallery?.body" @click="this.bodyDialog = true" class="mt-5" />
 
-      <v-dialog v-model="bodyDialog" width="600" scrollable>
+      <v-dialog v-model="bodyDialog" width="400" scrollable>
         <v-card rounded="lg">
-          <v-card-text class="pa-0" style="max-height: 400;">
-            <div class="editor" ref="editor" style="min-height: 300px;" />
+          <v-card-text>
+            <v-textarea v-model="gallery.body" label="What would you like to say about this image" rows="3" max-rows="8"
+              variant="underlined" color="amber-darken-2" />
           </v-card-text>
 
           <v-card-actions>
@@ -66,7 +67,7 @@ const storage = getStorage()
 
 export default {
   data: () => ({
-    blog: null,
+    gallery: null,
     titleDialog: false,
     bodyDialog: false,
     deleteLoading: false
@@ -81,17 +82,14 @@ export default {
   },
 
   mounted() {
-    this.getBlog(this.$route.params.id)
-
-    if (this.bodyDialog) this.renderWYSIWYG()
-
+    this.getImage(this.$route.params.id)
   },
 
   methods: {
-    async getBlog(id) {
-      let blog = (await getDoc(doc(db, 'blogs', id))).data()
+    async getImage(id) {
+      let gallery = (await getDoc(doc(db, 'gallery', id))).data()
 
-      this.blog = blog
+      this.gallery = gallery
     },
 
     clickOnInput() {
@@ -103,13 +101,13 @@ export default {
 
       if (!file) return
 
-      this.blog.image = URL.createObjectURL(file)
+      this.gallery.image = URL.createObjectURL(file)
 
       // upload file
 
       const id = await JSON.parse(localStorage.titiArtCollectionUser).uid
 
-      let link = `blog/${id}/${file.name}`
+      let link = `gallery/${id}/${file.name}`
 
       const storageRef = ref(storage, link)
 
@@ -121,7 +119,7 @@ export default {
           () => {
             getDownloadURL(uploadTask.snapshot.ref)
               .then(async downloadURL => {
-                await updateDoc(doc(db, 'blogs', id), {
+                await updateDoc(doc(db, 'gallery', id), {
                   image: downloadURL,
                   imageLink: uploadTask.snapshot.ref.fullPath,
                 })
@@ -129,18 +127,18 @@ export default {
                 this.app.snackbar = {
                   active: true,
                   color: 'green',
-                  text: 'Blog image changed successfully',
+                  text: 'Image changed successfully',
                   textColor: 'text-white'
                 }
 
-                this.getBlog(this.$route.params.id)
+                this.getImage(this.$route.params.id)
               })
               .catch(() => { })
           })
       }
 
-      if (this.blog.imageLink) {
-        const desertRef = ref(storage, this.blog.imageLink)
+      if (this.gallery.imageLink) {
+        const desertRef = ref(storage, this.gallery.imageLink)
 
         deleteObject(desertRef)
           .then(() => {
@@ -153,79 +151,30 @@ export default {
     },
 
     async saveTitle() {
-      await updateDoc(doc(db, 'blogs', this.$route.params.id), {
-        title: this.blog.title
+      await updateDoc(doc(db, 'gallery', this.$route.params.id), {
+        title: this.gallery.title
       })
 
       this.titleDialog = false
     },
 
     async saveBody() {
-      await updateDoc(doc(db, 'blogs', this.$route.params.id), {
-        body: this.blog.body
+      await updateDoc(doc(db, 'gallery', this.$route.params.id), {
+        body: this.gallery.body
       })
 
       this.bodyDialog = false
     },
 
-    openBodyDialog() {
-      this.bodyDialog = true
-
-      setTimeout(() => {
-        this.renderWYSIWYG()
-      }, 500)
-    },
-
-    renderWYSIWYG() {
-      let options = {
-        debug: false,
-        modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-
-            [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-
-            ['link', 'image'],
-            ['clean']
-
-          ]
-        },
-        placeholder: 'Compose an epic...',
-        readOnly: false,
-        theme: 'snow',
-        height: '400px'
-      };
-
-      let quill = new Quill(this.$refs.editor, options)
-
-      quill.root.innerHTML = this.blog.body
-
-      quill.on('text-change', () => {
-        this.blog.body = quill.root.innerHTML
-      })
-    },
-
     deletePost() {
-      const desertRef = ref(storage, this.blog.imageLink)
+      const desertRef = ref(storage, this.gallery.imageLink)
 
       this.deleteLoading = true
 
 
       deleteObject(desertRef)
         .then(async () => {
-          await deleteDoc(doc(db, 'blogs', this.$route.params.id))
+          await deleteDoc(doc(db, 'gallery', this.$route.params.id))
           this.$router.go(-1)
           this.deleteLoading = false
         }).catch(() => {

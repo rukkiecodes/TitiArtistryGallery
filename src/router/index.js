@@ -35,7 +35,7 @@ const routes = [
         path: 'booking',
         name: 'web.booking',
         component: () => import('@/views/website/Booking.vue'),
-      },
+      }
     ],
   },
   {
@@ -89,7 +89,29 @@ const routes = [
           },
           {
             path: 'gallery',
-            component: () => import('@/views/admin/dashboard/gallery/GalleryView.vue')
+            component: () => import('@/views/admin/dashboard/gallery/GalleryView.vue'),
+
+            children: [
+              {
+                path: '',
+                component: () => import('@/views/admin/dashboard/gallery/Images.vue'),
+
+                children: [
+                  {
+                    path: '',
+                    component: () => import('@/views/admin/dashboard/gallery/gallery/Images.vue')
+                  },
+                  {
+                    path: ':id',
+                    component: () => import('@/views/admin/dashboard/gallery/gallery/Image.vue')
+                  }
+                ]
+              },
+              {
+                path: 'newImage',
+                component: () => import('@/views/admin/dashboard/gallery/NewImage.vue')
+              },
+            ]
           }
         ]
       },

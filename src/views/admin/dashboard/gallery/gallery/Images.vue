@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-toolbar color="amber" rounded="lg" class="mb-5 pr-4">
-      <v-btn to="/admin/dashboard/blog/newBlog" class="ma-5 bg-amber-darken-2 text-white text-capitalize" rounded="lg"
+      <v-btn to="/admin/dashboard/gallery/newImage" class="ma-5 bg-amber-darken-2 text-white text-capitalize" rounded="lg"
         :icon="icon" height="45" elevation="0">
         <span v-if="!icon">Write a new Blog</span>
         <v-icon v-else>mdi-plus</v-icon>
@@ -13,7 +13,7 @@
 
     <v-row>
       <v-col cols="12" sm="4" md="4" v-for="blog in paginatedBlogs" :key="blog.id">
-        <v-card rounded="lg" :to="`/admin/dashboard/blog/${blog.id}`">
+        <v-card rounded="lg" :to="`/admin/dashboard/gallery/${blog.id}`">
           <v-img cover :src="blog?.image" style="max-height: 200px;" />
 
           <v-toolbar density="compact" color="transparent">
@@ -38,12 +38,13 @@
   
 <script setup>
 import { useAdminBlogStore } from "@/store/admin/blog";
+import { useAdminGalleryStore } from "@/store/admin/gallery";
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 
 const { name } = useDisplay()
 
-const blog = useAdminBlogStore()
+const blog = useAdminGalleryStore()
 
 const currentPage = ref(1);
 const itemsPerPage = 12; // Number of items per page
@@ -59,8 +60,8 @@ const endIndex = computed(() => startIndex.value + itemsPerPage);
 const searchQuery = ref('');
 const filteredBlogs = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
-  if (query === '') return blog.blogs;
-  return blog.blogs.filter((blog) => {
+  if (query === '') return blog.gallery;
+  return blog.gallery.filter((blog) => {
     return blog.title.toLowerCase().includes(query) ||
       blog.title.toLowerCase().includes(query);
   });
