@@ -35,7 +35,7 @@ const routes = [
         path: 'booking',
         name: 'web.booking',
         component: () => import('@/views/website/Booking.vue'),
-      },
+      }
     ],
   },
   {

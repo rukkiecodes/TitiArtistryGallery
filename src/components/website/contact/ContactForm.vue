@@ -1,5 +1,5 @@
 <template>
-    <v-card flat>
+    <v-card flat rounded="lg">
         <v-card-text>
             <v-text-field label="Name" placeholder="John Doe" variant="underlined" color="amber-darken-4"
                 prepend-inner-icon="mdi-account-outline" />
