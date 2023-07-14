@@ -10,19 +10,19 @@
         </v-card-text>
         <v-card-text>
             <div class="d-flex justify-start align-center">
-                <v-avatar variant="outlined" color="amber-darken-4">
+                <v-avatar variant="outlined" color="indigo-darken-4">
                     <v-icon>mdi-map-marker</v-icon>
                 </v-avatar>
                 <span class="ml-4  text-body-1">6935 91st cove s, cottage grove</span>
             </div>
             <div class="d-flex justify-start align-center mt-4">
-                <v-avatar variant="outlined" color="amber-darken-4">
+                <v-avatar variant="outlined" color="indigo-darken-4">
                     <v-icon>mdi-phone</v-icon>
                 </v-avatar>
                 <span class="ml-4  text-body-1"><a href="tel:651-366-1080" class="">651-366-1080</a></span>
             </div>
             <div class="d-flex justify-start align-center mt-4">
-                <v-avatar variant="outlined" color="amber-darken-4">
+                <v-avatar variant="outlined" color="indigo-darken-4">
                     <v-icon>mdi-at</v-icon>
                 </v-avatar>
                 <span class="ml-4  text-body-1"><a href="lexiTidream@gmail.com" class="">lexiTidream@gmail.com</a></span>

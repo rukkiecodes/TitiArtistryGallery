@@ -2,7 +2,7 @@
     <v-container fluid class="pa-0 mt-16">
         <v-card flat class="text-center mb-5" color="transparent">
             <v-card-text class="text-h5 text-sm-h4 font-weight-bold">Our Latest <span
-                    class="text-amber-darken-2">Works</span></v-card-text>
+                    class="text-indigo-darken-2">Works</span></v-card-text>
         </v-card>
 
         <Images :slice="50" />

@@ -12,9 +12,11 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
     state: () => ({
         image: null,
         title: '',
-        body: ``,
 
         loading: false,
+
+        imageDialog: null,
+        folderDialog: null,
 
         gallery: []
     }),
@@ -23,11 +25,11 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
         async savePost() {
             const id = await JSON.parse(localStorage.titiArtCollectionUser).uid
 
-            if (this.image == null || this.title == '' || this.body == '') {
+            if (this.image == null || this.title == '') {
                 app.snackbar = {
                     active: true,
                     text: 'Please fill the form to complete the gallery',
-                    color: 'amber',
+                    color: 'indigo',
                     textColor: 'text-white'
                 }
             } else {
@@ -52,11 +54,11 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
                                     image: downloadURL,
                                     imageLink: uploadTask.snapshot.ref.fullPath,
                                     title: this.title,
-                                    body: this.body,
                                     dateCreated: serverTimestamp(),
                                 })
 
                                 this.loading = false
+                                this.imageDialog = false
 
                                 app.snackbar = {
                                     active: true,

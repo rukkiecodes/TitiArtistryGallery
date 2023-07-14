@@ -27,7 +27,7 @@ export const useAdminBlogStore = defineStore('adminBlog', {
                 app.snackbar = {
                     active: true,
                     text: 'Please fill the form to complete the blog',
-                    color: 'amber',
+                    color: 'indigo',
                     textColor: 'text-white'
                 }
             } else {
