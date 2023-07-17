@@ -11,15 +11,20 @@
     </v-row>
 
     <v-row>
-      <v-col cols="12" sm="4" md="4" v-for="gallery in paginatedGallery" :key="gallery.id">
-        <v-card rounded="lg" :to="`/admin/dashboard/gallery/${gallery.id}`">
-          <v-img cover :src="gallery?.image" />
+      <v-col cols="12" sm="4" md="3" v-for="folder in gallery.folders" :key="folder.id">
+        <v-card rounded="lg">
+          <v-card-text class="d-flex justify-space-between">
+            <span class="text-caption">{{ folder?.folderName?.slice(0, 15) }}{{ folder?.folderName.length >= 15 ? '...' :
+              '' }}</span>
+
+            <span class="text-caption">{{ new Date(folder.createdAt.nanoseconds).toDateString() }}</span>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
 
     <!-- Pagination component -->
-    <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="indigo" />
+    <!-- <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="indigo" /> -->
   </v-container>
 </template>
   

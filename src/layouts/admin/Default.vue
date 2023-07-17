@@ -21,5 +21,6 @@ const gallery = useAdminGalleryStore()
 onMounted(() => { 
   blog.getBlogs()
   gallery.getGallery()
+  gallery.getFolders()
 })
 </script>
