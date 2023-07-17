@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <v-toolbar color="amber" rounded="lg" class="mb-5 pr-4">
-      <v-btn to="/admin/dashboard/blog/newBlog" class="ma-5 bg-amber-darken-2 text-white text-capitalize" rounded="lg"
+    <v-toolbar color="indigo" rounded="lg" class="mb-5 pr-4">
+      <v-btn to="/admin/dashboard/blog/newBlog" class="ma-5 bg-indigo-darken-2 text-white text-capitalize" rounded="lg"
         :icon="icon" height="45" elevation="0">
         <span v-if="!icon">Write a new Blog</span>
         <v-icon v-else>mdi-plus</v-icon>
       </v-btn>
 
       <v-text-field v-model="searchQuery" label="Search blogs" @input="updateSearch" hide-details density="compact"
-        color="amber-darken-2" variant="solo" rounded="lg" prepend-inner-icon="mdi-magnify" />
+        color="indigo-darken-2" variant="solo" rounded="lg" prepend-inner-icon="mdi-magnify" />
     </v-toolbar>
 
     <v-row>
@@ -32,7 +32,7 @@
     </v-row>
 
     <!-- Pagination component -->
-    <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="amber" />
+    <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="indigo" />
   </v-container>
 </template>
   

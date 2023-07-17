@@ -14,12 +14,12 @@
       <input type="file" @change="setImage" style="display: none" id="fileInput">
 
       <v-card-text>
-        <v-text-field v-model="blog.title" label="Post title" variant="underlined" color="amber-darken-2" />
+        <v-text-field v-model="blog.title" label="Post title" variant="underlined" color="indigo-darken-2" />
 
         <div class="editor" ref="editor" style="min-height: 300px;" />
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="savePost" :loading="blog.loading" class="bg-amber-darken-2 text-white" rounded="lg" block>Save
+        <v-btn @click="savePost" :loading="blog.loading" class="bg-indigo-darken-2 text-white" rounded="lg" block>Save
           Post</v-btn>
       </v-card-actions>
     </v-card>

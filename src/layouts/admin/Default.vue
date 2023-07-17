@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app theme="light">
     <AppBar />
     <Drawer />
 
@@ -21,5 +21,6 @@ const gallery = useAdminGalleryStore()
 onMounted(() => { 
   blog.getBlogs()
   gallery.getGallery()
+  gallery.getFolders()
 })
 </script>

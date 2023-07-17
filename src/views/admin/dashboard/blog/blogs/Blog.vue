@@ -17,11 +17,11 @@
           <v-dialog v-model="titleDialog" activator="parent" width="400">
             <v-card rounded="lg">
               <v-card-text>
-                <v-text-field variant="underlined" label="Post title" v-model="blog.title" color="amber-darken-4" />
+                <v-text-field variant="underlined" label="Post title" v-model="blog.title" color="indigo-darken-4" />
               </v-card-text>
 
               <v-card-actions>
-                <v-btn @click="saveTitle" block color="amber-darken-3">Save title</v-btn>
+                <v-btn @click="saveTitle" block color="indigo-darken-3">Save title</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -42,7 +42,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn @click="saveBody" block color="amber-darken-3">Save post</v-btn>
+            <v-btn @click="saveBody" block color="indigo-darken-3">Save post</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

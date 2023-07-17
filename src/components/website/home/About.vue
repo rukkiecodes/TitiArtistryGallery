@@ -2,13 +2,13 @@
     <v-container class="mt-16">
         <v-card flat class="text-center mb-5" color="transparent">
             <v-card-text class="text-h5 text-sm-h4 font-weight-bold">About <span
-                    class="text-amber-darken-2">Titi</span></v-card-text>
+                    class="text-indigo-darken-2">Titi</span></v-card-text>
         </v-card>
 
         <v-row>
             <v-col cols="12" sm="6" order="1" order-sm="0">
                 <v-card flat rounded="lg">
-                    <v-tabs v-model="tab" bg-color="transparent" color="amber-darken-2">
+                    <v-tabs v-model="tab" bg-color="transparent" color="indigo-darken-2">
                         <v-tab value="one">My Style</v-tab>
                         <v-tab value="two">Mission</v-tab>
                         <v-tab value="three">Vision</v-tab>

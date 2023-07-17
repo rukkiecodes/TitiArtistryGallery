@@ -7,7 +7,7 @@
       <v-row>
         <v-col cols="12" sm="4">
           <v-card flat class="d-flex flex-column align-center justify-center text-center">
-            <v-avatar variant="outlined" color="amber-darken-4" size="70">
+            <v-avatar variant="outlined" color="indigo-darken-4" size="70">
               <v-icon>mdi-map-marker</v-icon>
             </v-avatar>
 
@@ -19,7 +19,7 @@
         </v-col>
         <v-col cols="12" sm="4">
           <v-card flat class="d-flex flex-column align-center justify-center text-center">
-            <v-avatar variant="outlined" color="amber-darken-4" size="70">
+            <v-avatar variant="outlined" color="indigo-darken-4" size="70">
               <v-icon>mdi-phone</v-icon>
             </v-avatar>
 
@@ -31,7 +31,7 @@
         </v-col>
         <v-col cols="12" sm="4">
           <v-card flat class="d-flex flex-column align-center justify-center text-center">
-            <v-avatar variant="outlined" color="amber-darken-4" size="70">
+            <v-avatar variant="outlined" color="indigo-darken-4" size="70">
               <v-icon>mdi-at</v-icon>
             </v-avatar>
 

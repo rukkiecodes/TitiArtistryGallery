@@ -19,7 +19,18 @@ const routes = [
       {
         path: 'gallery',
         name: 'web.gallery',
-        component: () => import('@/views/website/Gallery.vue'),
+        component: () => import('@/views/website/gallery/Gallery.vue'),
+
+        children: [
+          {
+            path: '',
+            component: () => import('@/views/website/gallery/Images.vue')
+          },
+          {
+            path: ':id',
+            component: () => import('@/views/website/gallery/Image.vue')
+          }
+        ]
       },
       {
         path: 'blog',
