@@ -29,7 +29,11 @@ const routes = [
           {
             path: ':id',
             component: () => import('@/views/website/gallery/Image.vue')
-          }
+          },
+          {
+            path: ':name',
+            component: () => import('@/views/website/gallery/Image.vue')
+          },
         ]
       },
       {
@@ -110,18 +114,14 @@ const routes = [
                 children: [
                   {
                     path: '',
-                    component: () => import('@/views/admin/dashboard/gallery/gallery/Images.vue')
+                    component: () => import('@/views/admin/dashboard/gallery/views/Images.vue'),
                   },
                   {
                     path: ':id',
-                    component: () => import('@/views/admin/dashboard/gallery/gallery/Image.vue')
+                    component: () => import('@/views/admin/dashboard/gallery/views/Image.vue')
                   }
                 ]
-              },
-              {
-                path: 'newImage',
-                component: () => import('@/views/admin/dashboard/gallery/NewImage.vue')
-              },
+              }
             ]
           }
         ]
