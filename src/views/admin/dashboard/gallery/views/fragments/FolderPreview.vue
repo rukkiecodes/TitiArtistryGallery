@@ -4,7 +4,7 @@
       <v-toolbar-title>
         <span v-if="!showFolderTitleInput" @click="showFolderTitleInput = true" class="text-h4">{{ folderData?.folderName
           != '' ? folderData?.folderName : 'Folder title' }}</span>
-        <v-text-field v-else @blur="showFolderTitleInput = false" @keypress.enter="showFolderTitleInput = false"
+        <v-text-field v-else @blur="showFolderTitleInput = false" @keypress.enter="updateTitle"
           v-model="folderData.folderName" hide-details placeholder="Folder name" variant="plain" density="compact"
           color="indigo-accent-4" />
       </v-toolbar-title>
@@ -78,8 +78,10 @@
           <v-col cols="12" sm="6" md="4" v-for="(image, i) in images" :key="i">
             <v-hover>
               <template v-slot:default="{ isHovering, props }">
-                <v-card flat rounded="lg">
-                  <v-img :src="image?.image" v-bind="props" cover max-height="200" class="align-start justify-end"
+                <v-card @click="displayDialog = { active: true, ...image }"
+                  class="overflow-hidden pa-0 ma-0 d-flex justify-center" flat color="transparent" rounded="lg">
+                  <v-img v-if="image?.fileType == 'image/jpeg'" :src="image?.image" v-bind="props" cover max-height="200"
+                    class="align-start justify-end"
                     :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'">
                     <v-fade-transition>
                       <v-card v-if="isHovering" color="transparent" flat>
@@ -92,6 +94,11 @@
                       </v-card>
                     </v-fade-transition>
                   </v-img>
+
+                  <video v-else width="100">
+                    <source :src="image?.image" type="video/mp4">
+                    Your browser does not support HTML video.
+                  </video>
                 </v-card>
               </template>
             </v-hover>
@@ -99,12 +106,34 @@
         </v-row>
       </v-card-text>
     </v-card>
+
+    <v-dialog v-model="displayDialog.active" width="600" scrollable>
+      <v-card rounded="lg">
+        <v-toolbar density="comfortable" color="transparent">
+          <v-spacer />
+          <v-btn icon @click="displayDialog = { active: false }">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+
+        <v-card-text class="d-flex justify-center">
+          <v-img v-if="displayDialog?.fileType == 'image/jpeg'" :src="displayDialog?.image"
+            class="align-start justify-end"
+            :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'" />
+
+          <video v-else width="500" controls autoplay>
+            <source :src="displayDialog?.image" type="video/mp4">
+            Your browser does not support HTML video.
+          </video>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import { useAdminGalleryStore } from '@/store/admin/gallery'
-import { addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { db } from '@/plugins/firebase'
 import { getDownloadURL, getStorage, uploadBytesResumable, ref, deleteObject } from 'firebase/storage'
 import { useAppStore } from '@/store/app'
@@ -119,7 +148,10 @@ export default {
     folderData: null,
     loading: false,
     images: [],
-    addMoreDialog: false
+    addMoreDialog: false,
+    displayDialog: {
+      active: false
+    }
   }),
 
   setup() {
@@ -138,6 +170,14 @@ export default {
   },
 
   methods: {
+    async updateTitle() {
+      this.showFolderTitleInput = false
+
+      await updateDoc(doc(db, 'gallery', this.$route.params.id), {
+        folderName: this.folderData.folderName
+      })
+    },
+
     async getCurrentFolderInfo(props) {
       let folder = (await getDoc(doc(db, 'gallery', props))).data()
 
@@ -214,6 +254,7 @@ export default {
                 await addDoc(collection(db, 'gallery', this.$route.params.id, 'images'), {
                   image: downloadURL,
                   imageLink: uploadTask.snapshot.ref.fullPath,
+                  fileType: file.type,
                   createdAt: serverTimestamp()
                 })
               })
