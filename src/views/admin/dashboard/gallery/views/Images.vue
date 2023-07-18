@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="4">
-        <NewImage />
+        <ImageTray />
       </v-col>
       <v-col cols="12" sm="8">
         <v-text-field v-model="searchQuery" label="Search images" @input="updateSearch" hide-details density="compact"
@@ -12,7 +12,7 @@
 
     <v-row>
       <v-col cols="12" sm="4" md="3" v-for="folder in gallery.folders" :key="folder.id">
-        <v-card rounded="lg">
+        <v-card rounded="lg" :to="`/admin/dashboard/gallery/${folder.id}`">
           <v-card-text class="d-flex justify-space-between">
             <span class="text-caption">{{ folder?.folderName?.slice(0, 15) }}{{ folder?.folderName.length >= 15 ? '...' :
               '' }}</span>
@@ -27,9 +27,9 @@
     <!-- <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="indigo" /> -->
   </v-container>
 </template>
-  
+    
 <script setup>
-import NewImage from '@/views/admin/dashboard/gallery/NewImage.vue'
+import ImageTray from '@/views/admin/dashboard/gallery/components/ImageTray.vue'
 import { useAdminGalleryStore } from "@/store/admin/gallery";
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -89,3 +89,4 @@ const icon = computed(() => {
   return undefined
 })
 </script>
+  
