@@ -24,7 +24,7 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
         gallery: [],
         folders: [],
         folder: [],
-        folderTitle: 'drghdryj',
+        folderTitle: '',
         images: []
     }),
 

@@ -2,8 +2,8 @@
     <v-col v-if="images.length >= 1" cols="12">
         <v-card flat>
             <v-card-title class="text-grey-darken-3">{{ folderData?.folderName }}</v-card-title>
-            <v-card-subtitle>{{ new Date(folderData?.createdAt.seconds * 1000).toDateString() }} - {{ new
-                Date(folderData?.updatedAt.seconds * 1000).toDateString() }}</v-card-subtitle>
+            <v-card-subtitle>{{ new Date(folderData?.createdAt?.seconds * 1000).toDateString() }} - {{ new
+                Date(folderData?.updatedAt?.seconds * 1000).toDateString() }}</v-card-subtitle>
         </v-card>
     </v-col>
     <v-col v-for="image in images" :key="image.id" cols="12" sm="6" md="3">

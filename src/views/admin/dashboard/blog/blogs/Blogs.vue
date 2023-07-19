@@ -22,7 +22,7 @@
             <v-spacer />
 
             <v-chip>
-              {{ new Date(blog?.dateCreated.seconds).toDateString() }}
+              {{ new Date(blog?.dateCreated?.seconds * 1000).toDateString() }}
             </v-chip>
           </v-toolbar>
 
