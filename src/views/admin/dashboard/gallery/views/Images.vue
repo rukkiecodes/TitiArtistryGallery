@@ -8,7 +8,8 @@
 
     <v-row>
       <v-col cols="12" sm="4" md="3" v-for="folder in gallery.folders" :key="folder.id">
-        <v-list class="py-0" density="compact" rounded="lg" elevation="2" @dblclick="$router.push(`/admin/dashboard/gallery/${folder.id}`)">
+        <v-list class="py-0" density="compact" rounded="lg" elevation="2"
+          @dblclick="$router.push(`/admin/dashboard/gallery/${folder.id}`)">
           <v-list-item :title="folder?.folderName" :subtitle="new Date(folder.createdAt?.seconds * 1000).toDateString()"
             density="compact">
             <!--  -->
@@ -37,6 +38,32 @@
     <v-row v-for="folder in gallery.folders" :key="folder.id">
       <AllimagesFromFolders :folder="folder" />
     </v-row>
+
+    <v-divider class="my-10" />
+
+    <v-row>
+      <v-col v-for="image in gallery.gallery" :key="image.id" cols="12" sm="6" md="4" lg="3">
+        <v-card @click="imageDialog = { active: true, ...image }" rounded="lg">
+          <v-img :src="image?.image" aspect-ratio="16/9" cover />
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-dialog v-model="imageDialog.active" width="600" scrollable>
+      <v-card>
+        <v-toolbar density="comfortable">
+          <v-spacer />
+
+          <v-btn icon @click="imageDialog.active = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+
+        <v-card-text>
+          <v-img :src="imageDialog.image" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
     
@@ -51,6 +78,10 @@ import { useAppStore } from '@/store/app';
 const storage = getStorage()
 
 export default {
+  data: () => ({
+    imageDialog: { active: false }
+  }),
+
   setup() {
     const gallery = useAdminGalleryStore()
     const app = useAppStore()

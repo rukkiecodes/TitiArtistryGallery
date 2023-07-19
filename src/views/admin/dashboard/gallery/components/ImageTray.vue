@@ -3,14 +3,6 @@
         image
         <v-dialog activator="parent" v-model="gallery.imageDialog" width="600" persistent scrollable>
             <v-card rounded="lg">
-                <v-card-title v-if="!showTitleInput" @click="showTitleInput = !showTitleInput"
-                    class="text-h4 text-grey-darken-3">
-                    {{ gallery.title != '' ? gallery.title : 'Image title' }}
-                </v-card-title>
-                <v-card-text v-else @blur="showTitleInput = false">
-                    <v-text-field v-model="gallery.title" @keypress.enter="showTitleInput = false" color="indigo-accent-4"
-                        variant="underlined" placeholder="Image title" hide-details density="compact" />
-                </v-card-text>
                 <v-card-text style="max-height: 500px;">
                     <v-sheet @click="clickOnInput" :color="previewImage ? '' : 'grey'" width="100%" min-height="200"
                         rounded="lg" class="overflow-hidden d-flex align-center justify-center">
@@ -25,9 +17,9 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
-                    <v-btn class="text-capitalize" color="indigo-accent-4">Cancel</v-btn>
+                    <v-btn @click="gallery.imageDialog = false" class="text-capitalize" color="grey-darken-4">Cancel</v-btn>
                     <v-btn @click="gallery.savePost" :loading="gallery.loading" class="text-capitalize"
-                        color="indigo-accent-4" prepend-icon="mdi-tray-arrow-up">Save Image</v-btn>
+                        color="grey-darken-4" prepend-icon="mdi-tray-arrow-up">Save Image</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -38,8 +30,8 @@
         <v-dialog activator="parent" v-model="gallery.newFolderDialog" width="400" persistent="">
             <v-card rounded="lg">
                 <v-card-text>
-                    <v-text-field v-model="gallery.folderTitle" hide-details variant="underlined" color="indigo-accent-4"
-                        label="Folder name" />
+                    <v-text-field v-model="gallery.folderTitle" @keypress.enter="gallery.saveFolder" hide-details
+                        variant="underlined" color="indigo-accent-4" label="Folder name" />
                 </v-card-text>
 
                 <v-card-actions>

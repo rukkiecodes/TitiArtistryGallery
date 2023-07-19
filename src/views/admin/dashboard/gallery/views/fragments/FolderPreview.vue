@@ -80,8 +80,8 @@
               <template v-slot:default="{ isHovering, props }">
                 <v-card @click="displayDialog = { active: true, ...image }"
                   class="overflow-hidden pa-0 ma-0 d-flex justify-center" flat color="transparent" rounded="lg">
-                  <v-img v-if="image?.fileType == 'image/jpeg'" :src="image?.image" v-bind="props" cover max-height="200"
-                    class="align-start justify-end"
+                  <v-img v-if="image?.fileType.includes('image')" :src="image?.image" v-bind="props" cover
+                    max-height="200" class="align-start justify-end"
                     :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'">
                     <v-fade-transition>
                       <v-card v-if="isHovering" color="transparent" flat>
@@ -111,13 +111,13 @@
       <v-card rounded="lg">
         <v-toolbar density="comfortable" color="transparent">
           <v-spacer />
-          <v-btn icon @click="displayDialog = { active: false }">
+          <v-btn icon @click="displayDialog.active = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
 
         <v-card-text class="d-flex justify-center">
-          <v-img v-if="displayDialog?.fileType == 'image/jpeg'" :src="displayDialog?.image"
+          <v-img v-if="displayDialog?.fileType.includes('image')" :src="displayDialog?.image"
             class="align-start justify-end"
             :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'" />
 
