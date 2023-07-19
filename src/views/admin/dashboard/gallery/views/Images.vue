@@ -17,10 +17,14 @@
             <span class="text-caption">{{ folder?.folderName?.slice(0, 15) }}{{ folder?.folderName.length >= 15 ? '...' :
               '' }}</span>
 
-            <span class="text-caption">{{ new Date(folder.createdAt.nanoseconds).toDateString() }}</span>
+            <span class="text-caption">{{ new Date(folder.createdAt.seconds * 1000).toDateString() }}</span>
           </v-card-text>
         </v-card>
       </v-col>
+    </v-row>
+
+    <v-row v-for="folder in gallery.folders" :key="folder.id">
+      <AllimagesFromFolders :folder="folder" />
     </v-row>
 
     <!-- Pagination component -->
@@ -30,6 +34,7 @@
     
 <script setup>
 import ImageTray from '@/views/admin/dashboard/gallery/components/ImageTray.vue'
+import AllimagesFromFolders from '../components/AllimagesFromFolders.vue';
 import { useAdminGalleryStore } from "@/store/admin/gallery";
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
