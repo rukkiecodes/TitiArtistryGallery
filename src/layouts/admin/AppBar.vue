@@ -14,7 +14,7 @@
           Upload
         </v-btn>
       </template>
-      <v-list density="compact">
+      <v-list density="compact" class="py-0" rounded="lg">
         <v-list-item density="compact" to="/admin/dashboard/blog">
           <v-list-item-title>Blog post</v-list-item-title>
         </v-list-item>
