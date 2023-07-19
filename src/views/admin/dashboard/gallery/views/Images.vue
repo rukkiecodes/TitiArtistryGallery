@@ -43,14 +43,31 @@
 
     <v-row>
       <v-col v-for="image in gallery.gallery" :key="image.id" cols="12" sm="6" md="4" lg="3">
-        <v-card @click="imageDialog = { active: true, ...image }" rounded="lg">
-          <v-img :src="image?.image" aspect-ratio="16/9" cover />
-        </v-card>
+        <v-hover>
+          <template v-slot:default="{ isHovering, props }">
+            <v-card @click="imageDialog = { active: true, ...image }"
+              class="overflow-hidden pa-0 ma-0 d-flex justify-center" flat color="transparent" rounded="lg">
+              <v-img :src="image?.image" v-bind="props" cover max-height="200" class="align-start justify-end"
+                :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'">
+                <v-fade-transition>
+                  <v-card v-if="isHovering" color="transparent" flat>
+                    <v-card-actions>
+                      <v-spacer />
+                      <v-btn @click="deleteImage(image)" icon color="white">
+                        <v-icon>mdi-trash-can-outline</v-icon>
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-fade-transition>
+              </v-img>
+            </v-card>
+          </template>
+        </v-hover>
       </v-col>
     </v-row>
 
     <v-dialog v-model="imageDialog.active" width="600" scrollable>
-      <v-card>
+      <v-card rounded="lg">
         <v-toolbar density="comfortable">
           <v-spacer />
 
@@ -128,6 +145,25 @@ export default {
           textColor: 'text-white'
         }
       }
+    },
+
+    deleteImage(image) {
+      const desertRef = ref(storage, image.imageLink)
+
+      // Delete the file
+      deleteObject(desertRef)
+        .then(async () => {
+          // File deleted successfully
+          await deleteDoc(doc(db, 'gallery', image.id))
+
+          this.app.snackbar = {
+            active: true,
+            color: 'green',
+            text: `image deleted successfully`,
+            textColor: 'text-white'
+          }
+        }).catch((error) => {
+        });
     }
   }
 }
