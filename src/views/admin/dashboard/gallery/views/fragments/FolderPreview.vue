@@ -287,13 +287,6 @@ export default {
             textColor: 'text-white'
           }
         }).catch((error) => {
-          // Uh-oh, an error occurred!
-          // this.app.snackbar = {
-          //   active: true,
-          //   color: 'red',
-          //   text: `error deleting this image`,
-          //   textColor: 'text-white'
-          // }
         });
     }
   }
