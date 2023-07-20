@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useAppStore } from '../app'
 
 import { db } from '@/plugins/firebase'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 
 const app = useAppStore()
 
@@ -20,9 +20,9 @@ export const useGalleryStore = defineStore('gallery', {
 
     actions: {
         async getGallery() {
-            const q = collection(db, "gallery")
+            const q = query(collection(db, "gallery"), where('documentType', '==', 'file'))
 
-            const snapshot = await getDocs(collection(db, 'gallery'))
+            const snapshot = await getDocs(q)
 
             let array = []
             snapshot.forEach(doc => {

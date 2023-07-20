@@ -4,22 +4,34 @@
       <v-col cols="12" sm="4">
         <ImageTray />
       </v-col>
-      <v-col cols="12" sm="8">
-        <v-text-field v-model="searchQuery" label="Search images" @input="updateSearch" hide-details density="compact"
-          color="indigo-accent-4" variant="underlined" rounded="lg" prepend-inner-icon="mdi-magnify" />
-      </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12" sm="4" md="3" v-for="folder in gallery.folders" :key="folder.id">
-        <v-card rounded="lg" :to="`/admin/dashboard/gallery/${folder.id}`">
-          <v-card-text class="d-flex justify-space-between">
-            <span class="text-caption">{{ folder?.folderName?.slice(0, 15) }}{{ folder?.folderName.length >= 15 ? '...' :
-              '' }}</span>
-
-            <span class="text-caption">{{ new Date(folder.createdAt.seconds * 1000).toDateString() }}</span>
-          </v-card-text>
-        </v-card>
+        <v-list class="py-0" density="compact" rounded="lg" elevation="2"
+          @dblclick="$router.push(`/admin/dashboard/gallery/${folder.id}`)">
+          <v-list-item :title="folder?.folderName" :subtitle="new Date(folder.createdAt?.seconds * 1000).toDateString()"
+            density="compact">
+            <!--  -->
+            <template v-slot:append>
+              <v-menu>
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" color="transparent" flat icon>
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list rounded="lg" density="compact" class="py-0">
+                  <v-list-item :to="`/admin/dashboard/gallery/${folder.id}`" density="compact">
+                    <v-list-item-title class="text-body-2">Open {{ folder?.folderName }}</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="deleteFolder(folder)" density="compact">
+                    <v-list-item-title class="text-body-2 text-red">Delete {{ folder?.folderName }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </template>
+          </v-list-item>
+        </v-list>
       </v-col>
     </v-row>
 
@@ -27,71 +39,133 @@
       <AllimagesFromFolders :folder="folder" />
     </v-row>
 
-    <!-- Pagination component -->
-    <!-- <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="indigo" /> -->
+    <v-divider class="my-10" />
+
+    <v-row>
+      <v-col v-for="image in gallery.gallery" :key="image.id" cols="12" sm="6" md="4" lg="3">
+        <v-hover>
+          <template v-slot:default="{ isHovering, props }">
+            <v-card @click="imageDialog = { active: true, ...image }"
+              class="overflow-hidden pa-0 ma-0 d-flex justify-center" flat color="transparent" rounded="lg">
+              <v-img :src="image?.image" v-bind="props" cover max-height="200" class="align-start justify-end"
+                :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'">
+                <v-fade-transition>
+                  <v-card v-if="isHovering" color="transparent" flat>
+                    <v-card-actions>
+                      <v-spacer />
+                      <v-btn @click="deleteImage(image)" icon color="white">
+                        <v-icon>mdi-trash-can-outline</v-icon>
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-fade-transition>
+              </v-img>
+            </v-card>
+          </template>
+        </v-hover>
+      </v-col>
+    </v-row>
+
+    <v-dialog v-model="imageDialog.active" width="600" scrollable>
+      <v-card rounded="lg">
+        <v-toolbar density="comfortable">
+          <v-spacer />
+
+          <v-btn icon @click="imageDialog.active = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+
+        <v-card-text>
+          <v-img :src="imageDialog.image" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
     
-<script setup>
+<script>
 import ImageTray from '@/views/admin/dashboard/gallery/components/ImageTray.vue'
 import AllimagesFromFolders from '../components/AllimagesFromFolders.vue';
 import { useAdminGalleryStore } from "@/store/admin/gallery";
-import { ref, computed } from 'vue'
-import { useDisplay } from 'vuetify'
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { db } from '@/plugins/firebase';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
+import { useAppStore } from '@/store/app';
+const storage = getStorage()
 
-const { name } = useDisplay()
+export default {
+  data: () => ({
+    imageDialog: { active: false }
+  }),
 
-const gallery = useAdminGalleryStore()
+  setup() {
+    const gallery = useAdminGalleryStore()
+    const app = useAppStore()
 
-const currentPage = ref(1);
-const itemsPerPage = 12; // Number of items per page
+    return {
+      gallery,
+      app
+    }
+  },
 
-// Calculate the total number of pages based on the number of gallery and itemsPerPage
-const totalPages = computed(() => Math.ceil(filteredGallry.length / itemsPerPage));
+  components: {
+    ImageTray,
+    AllimagesFromFolders
+  },
 
-// Calculate the index of the first and last item to be displayed on the current page
-const startIndex = computed(() => (currentPage.value - 1) * itemsPerPage);
-const endIndex = computed(() => startIndex.value + itemsPerPage);
+  methods: {
+    async deleteFolder(prop) {
+      const querySnapShot = await getDocs(collection(db, 'gallery', prop.id, 'images'))
 
-// Search functionality
-const searchQuery = ref('');
-const filteredGallry = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase();
-  if (query === '') return gallery.gallery;
-  return gallery.gallery.filter((gallery) => {
-    return gallery.title.toLowerCase().includes(query) ||
-      gallery.title.toLowerCase().includes(query);
-  });
-});
+      if (querySnapShot.docs.length >= 1) {
+        querySnapShot.forEach(document => {
+          const desertRef = ref(storage, document.data().imageLink)
 
-console.log(filteredGallry)
+          deleteObject(desertRef)
+            .then(async () => {
+              // File deleted successfully
+              await deleteDoc(doc(db, 'gallery', prop.id, 'images', document.id))
 
-// Slice the gallerys array based on the startIndex and endIndex
-const paginatedGallery = computed(() => filteredGallry.value.slice(startIndex.value, endIndex.value));
+              this.app.snackbar = {
+                active: true,
+                color: 'green',
+                text: `image deleted successfully`,
+                textColor: 'text-white'
+              }
+            }).catch((error) => {
+            });
+        })
+      } else {
+        await deleteDoc(doc(db, 'gallery', prop.id))
+        this.app.snackbar = {
+          active: true,
+          color: 'green',
+          text: `folder deleted successfully`,
+          textColor: 'text-white'
+        }
+      }
+    },
 
-// Function to handle page change
-function changePage(page) {
-  currentPage.value = page;
-}
+    deleteImage(image) {
+      const desertRef = ref(storage, image.imageLink)
 
-// Function to update search query
-function updateSearch() {
-  currentPage.value = 1; // Reset to first page when search query changes
-}
+      // Delete the file
+      deleteObject(desertRef)
+        .then(async () => {
+          // File deleted successfully
+          await deleteDoc(doc(db, 'gallery', image.id))
 
-const icon = computed(() => {
-  // name is reactive and
-  // must use .value
-  switch (name.value) {
-    case 'xs': return true
-    case 'sm': return false
-    case 'md': return false
-    case 'lg': return false
-    case 'xl': return false
-    case 'xxl': return false
+          this.app.snackbar = {
+            active: true,
+            color: 'green',
+            text: `image deleted successfully`,
+            textColor: 'text-white'
+          }
+        }).catch((error) => {
+        });
+    }
   }
-
-  return undefined
-})
+}
 </script>
   

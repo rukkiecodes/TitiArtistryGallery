@@ -19,7 +19,7 @@
         <div class="editor" ref="editor" style="min-height: 300px;" />
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="savePost" :loading="blog.loading" class="bg-indigo-darken-2 text-white" rounded="lg" block>Save
+        <v-btn @click="savePost" :loading="blog.loading" class="bg-indigo-accent-4 text-white" rounded="lg" block>Save
           Post</v-btn>
       </v-card-actions>
     </v-card>

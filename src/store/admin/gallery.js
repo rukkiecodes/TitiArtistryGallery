@@ -2,9 +2,9 @@
 import { defineStore } from 'pinia'
 import { useAppStore } from '../app'
 
-import { auth, db } from '@/plugins/firebase'
-import { addDoc, arrayUnion, collection, doc, getDocs, onSnapshot, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage"
+import { db } from '@/plugins/firebase'
+import { addDoc, collection, onSnapshot, query, serverTimestamp, where } from 'firebase/firestore'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 const app = useAppStore()
 
@@ -24,7 +24,7 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
         gallery: [],
         folders: [],
         folder: [],
-        folderTitle: 'drghdryj',
+        folderTitle: '',
         images: []
     }),
 
@@ -32,7 +32,7 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
         async savePost() {
             const id = await JSON.parse(localStorage.titiArtCollectionUser).uid
 
-            if (this.image == null || this.title == '') {
+            if (this.image == null) {
                 app.snackbar = {
                     active: true,
                     text: 'Please fill the form to complete the gallery',
@@ -58,9 +58,9 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
                                 await addDoc(collection(db, 'gallery'), {
                                     image: downloadURL,
                                     imageLink: uploadTask.snapshot.ref.fullPath,
-                                    title: this.title,
-                                    single: true,
-                                    dateCreated: serverTimestamp(),
+                                    fileType: file.type,
+                                    documentType: 'file',
+                                    createdAt: serverTimestamp()
                                 })
 
                                 this.loading = false
@@ -69,7 +69,7 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
                                 app.snackbar = {
                                     active: true,
                                     color: 'green',
-                                    text: 'Image post saved successfully',
+                                    text: 'Image saved successfully',
                                     textColor: 'text-white'
                                 }
                             })
@@ -77,7 +77,7 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
                                 app.snackbar = {
                                     active: true,
                                     color: 'red',
-                                    text: 'Image post was not saved',
+                                    text: 'Image was not saved',
                                     textColor: 'text-white'
                                 }
                             })
@@ -112,74 +112,6 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
                 this.loading = false
                 this.newFolderDialog = false
             }
-
-            // const q = query(collection(db, 'gallery'), where('folderTitle', '==', this.folderTitle))
-
-            // const querySnapshot = await getDocs(q)
-
-
-            // if (querySnapshot.docs.length == 0) {
-
-            //     let count = 0
-
-            //     const setDocument = async () => {
-            //         this.loading = true
-
-            //         await addDoc(collection(db, 'gallery'), {
-            //             image: null,
-            //             imageLink: null,
-            //             title: null,
-            //             single: false,
-            //             images: this.images,
-            //             folderTitle: this.folderTitle,
-            //             dateCreated: serverTimestamp(),
-            //         })
-
-            //         this.loading = false
-
-            //         app.snackbar = {
-            //             active: true,
-            //             color: 'green',
-            //             text: `${this.images.length} image${this.images.length == 1 ? '' : 's'} uploaded successfully`,
-            //             textColor: 'text-white'
-            //         }
-            //     }
-
-            //     const startUpload = ({ file }) => {
-            //         let link = `gallery/${this.folderTitle}/${file.name}`
-
-            //         const storageRef = ref(storage, link)
-
-            //         const uploadTask = uploadBytesResumable(storageRef, file)
-
-            //         this.loading = true
-
-            //         uploadTask.on('state_changed', snapshop => { },
-            //             error => { },
-            //             () => {
-            //                 getDownloadURL(uploadTask.snapshot.ref)
-            //                     .then(async downloadURL => {
-            //                         this.images.push({
-            //                             image: downloadURL,
-            //                             imageLink: uploadTask.snapshot.ref.fullPath,
-            //                         })
-            //                     })
-
-            //                 count++
-
-            //                 this.loading = false
-
-            //                 if (count == files.length) {
-            //                     this.loading = true
-            //                     setDocument()
-            //                 }
-            //             })
-            //     }
-
-            //     files.forEach(file => {
-            //         startUpload(file)
-            //     })
-            // }
         },
 
         async getFolders() {
@@ -201,7 +133,7 @@ export const useAdminGalleryStore = defineStore('adminGallery', {
         },
 
         async getGallery() {
-            const q = collection(db, "gallery")
+            const q = query(collection(db, "gallery"), where('documentType', '==', 'file'))
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const gallery = [];

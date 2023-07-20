@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <v-toolbar color="indigo" rounded="lg" class="mb-5 pr-4">
-      <v-btn to="/admin/dashboard/blog/newBlog" class="ma-5 bg-indigo-darken-2 text-white text-capitalize" rounded="lg"
-        :icon="icon" height="45" elevation="0">
-        <span v-if="!icon">Write a new Blog</span>
-        <v-icon v-else>mdi-plus</v-icon>
+    <v-toolbar color="white" rounded="lg" class="mb-5" flat>
+      <v-btn to="/admin/dashboard/blog/newBlog" class="ml-0 mr-1 bg-white text-white text-capitalize" rounded="lg"
+        :icon="icon" elevation="4">
+        <span class="text-grey-darken-3" v-if="!icon">Write a new Blog</span>
+        <v-icon color="grey-darken-3" v-else>mdi-plus</v-icon>
       </v-btn>
 
-      <v-text-field v-model="searchQuery" label="Search blogs" @input="updateSearch" hide-details density="compact"
-        color="indigo-darken-2" variant="solo" rounded="lg" prepend-inner-icon="mdi-magnify" />
+      <v-text-field v-model="searchQuery" label="Search blogs" @input="updateSearch" hide-details density="comfortable"
+        color="indigo-darken-2" variant="underlined" prepend-inner-icon="mdi-magnify" />
     </v-toolbar>
 
     <v-row>
@@ -16,23 +16,17 @@
         <v-card rounded="lg" :to="`/admin/dashboard/blog/${blog.id}`">
           <v-img cover :src="blog?.image" style="max-height: 200px;" />
 
-          <v-toolbar density="compact" color="transparent">
-            <v-toolbar-title>{{ blog?.title }}</v-toolbar-title>
+          <v-card-title class="grey-darken-3">{{ blog?.title }}</v-card-title>
+          <v-card-subtitle>{{ new Date(blog?.dateCreated?.seconds * 1000).toDateString() }}</v-card-subtitle>
 
-            <v-spacer />
-
-            <v-chip>
-              {{ new Date(blog?.dateCreated.seconds).toDateString() }}
-            </v-chip>
-          </v-toolbar>
-
-          <v-card-text v-html="blog?.body.slice(0, 200) + '...'" />
+          <v-card-text class="text-body-2" v-html="blog?.body.slice(0, 200) + '...'" />
         </v-card>
       </v-col>
     </v-row>
 
     <!-- Pagination component -->
-    <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" class="mt-5" active-color="indigo" />
+    <v-pagination v-if="blog.blogs.length >= 12" v-model="currentPage" :length="totalPages" @input="changePage"
+      class="mt-5" active-color="indigo" />
   </v-container>
 </template>
   

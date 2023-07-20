@@ -13,7 +13,7 @@
                             {{ subtitle }}
                         </v-card-text>
                         <v-card-actions>
-                            <v-btn to="/register" block class="bg-indigo-accent-4 rounded-lg">Join Us Now</v-btn>
+                            <v-btn to="/register" block class="bg-indigo-accent-4 rounded-lg">Book Now</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-col>
@@ -62,7 +62,7 @@ export default {
     
 <style scoped lang="scss">
 .header {
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://res.cloudinary.com/rukkiecodes/image/upload/v1687297065/Titi%20Artistry%20Gallery/theregisti-HSXIp58yPyI-unsplash_pjns2x.jpg");
+    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("@/assets/bg.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

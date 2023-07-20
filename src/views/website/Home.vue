@@ -1,6 +1,6 @@
 <template>
     <Head title="Welcome to LexiTidream"
-        subtitle="Welcome to Titi's Artistry Gallery! Discover our captivating collection of meticulously crafted moments frozen in time, celebrating the innate beauty that surrounds us. Join us on this visual journey where life takes shape through Titi's visionary lens."
+        subtitle="Welcome to LexiTindream's Artistry Gallery! Discover our captivating collection of meticulously crafted moments frozen in time, celebrating the innate beauty that surrounds us. Join us on this visual journey where life takes shape through LexiTindream's visionary lens."
         :showCard="true" />
     <LatestWork />
     <About />

@@ -11,7 +11,7 @@
           :append-inner-icon="peek ? 'mdi-eye-off-outline' : 'mdi-eye-outline'" @click:append-inner="peek = !peek" />
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="auth.authenticateUser" :loading="auth.loading" class="bg-indigo-darken-2 text-white" block
+        <v-btn @click="auth.authenticateUser" :loading="auth.loading" class="bg-indigo-accent-4 text-white" block
           rounded="lg" flat>
           Login
         </v-btn>
