@@ -2,7 +2,7 @@
     <v-container fluid class="pa-0 mt-16">
         <v-card flat class="text-center mb-5" color="transparent">
             <v-card-text class="text-h5 text-sm-h4 font-weight-bold">Our Latest <span
-                    class="text-indigo-darken-2">Works</span></v-card-text>
+                    class="text-indigo-accent-4">Works</span></v-card-text>
         </v-card>
 
         <Images :slice="50" />
@@ -10,7 +10,6 @@
 </template>
 
 <script setup>
-import router from "@/router";
 import { useGalleryStore } from "@/store/website/gallery";
 import { ref } from "vue";
 import Images from '@/components/website/fragments/Images.vue'

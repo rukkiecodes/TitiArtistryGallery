@@ -26,14 +26,6 @@ const routes = [
             path: '',
             component: () => import('@/views/website/gallery/Images.vue')
           },
-          {
-            path: ':id',
-            component: () => import('@/views/website/gallery/Image.vue')
-          },
-          {
-            path: ':name',
-            component: () => import('@/views/website/gallery/Image.vue')
-          },
         ]
       },
       {
