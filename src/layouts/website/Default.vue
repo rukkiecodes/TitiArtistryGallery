@@ -18,5 +18,6 @@ const gallery = useGalleryStore()
 
 onMounted(() => {
   gallery.getGallery()
+  gallery.getFolders()
 })
 </script>

@@ -1,0 +1,45 @@
+@import "./mediaQuery";
+
+* {
+    transition: all .25s ease;
+}
+
+.render__copies__section {
+    width: 100%;
+    column-count: 3;
+    column-gap: 1;
+
+    @include mobile {
+        display: initial;
+        margin-bottom: 0;
+        column-count: 1;
+    }
+
+    .render__copies__section__card {
+        width: 100%;
+        height: auto;
+        break-inside: avoid;
+        margin: auto;
+        margin-bottom: .5em;
+        cursor: pointer;
+        overflow: hidden !important;
+
+        &:hover {
+            .render__all__copies__flex__card__text__image {
+                transform: scale(1.2);
+            }
+        }
+
+        @include mobile {
+            &:last-child {
+                margin-bottom: 1em;
+            }
+        }
+
+        .render__all__copies__flex__card__text__image {
+            width: 100%;
+            height: auto;
+            margin: auto;
+        }
+    }
+}
