@@ -26,7 +26,7 @@
                 <div></div>
             </div>
             <div class="section2">
-                <span>Amaging</span>
+                <span>Amazing</span>
             </div>
             <div class="section1">
                 <div></div>

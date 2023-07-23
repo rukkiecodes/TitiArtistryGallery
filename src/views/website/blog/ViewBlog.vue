@@ -1,5 +1,5 @@
 <template>
-  <h1>Booking</h1>
+  <h1>ViewBlog.vue</h1>
 </template>
 
 <script>

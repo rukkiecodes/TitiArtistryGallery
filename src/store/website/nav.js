@@ -20,11 +20,7 @@ export const useWebNavStore = defineStore('webNav', {
             {
                 name: 'Contact',
                 to: '/contact'
-            },
-            {
-                name: 'Booking',
-                to: '/booking'
-            },
+            }
         ]
     }),
 })

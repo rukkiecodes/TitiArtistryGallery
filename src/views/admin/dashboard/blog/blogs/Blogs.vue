@@ -19,7 +19,7 @@
           <v-card-title class="grey-darken-3">{{ blog?.title }}</v-card-title>
           <v-card-subtitle>{{ new Date(blog?.dateCreated?.seconds * 1000).toDateString() }}</v-card-subtitle>
 
-          <v-card-text class="text-body-2" v-html="blog?.body.slice(0, 200) + '...'" />
+          <v-card-text class="text-body-2" v-html="blog?.body?.slice(0, 200) + '...'" />
         </v-card>
       </v-col>
     </v-row>
@@ -61,7 +61,7 @@ const filteredBlogs = computed(() => {
 });
 
 // Slice the blogs array based on the startIndex and endIndex
-const paginatedBlogs = computed(() => filteredBlogs.value.slice(startIndex.value, endIndex.value));
+const paginatedBlogs = computed(() => filteredBlogs.value?.slice(startIndex.value, endIndex.value));
 
 // Function to handle page change
 function changePage(page) {
