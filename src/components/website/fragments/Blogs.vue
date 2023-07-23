@@ -2,7 +2,7 @@
     <v-container class="pt-10">
         <div class="render__copies__section">
             <div class="render__copies__section__card" v-for="blog in paginatedBlogs" :key="blog.id">
-                <v-card :to="`/blog/${blog.id}`" class="mx-auto mb-5" variant="outlined" rounded="xl">
+                <v-card :to="`/blog/${blog.id}`" class="mx-auto mb-5" rounded="xl" color="transparent" flat>
                     <v-img :src="blog?.image" cover />
                     <v-card-title>{{ blog?.title }}</v-card-title>
                     <v-card-text>
