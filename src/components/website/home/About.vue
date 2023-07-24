@@ -17,9 +17,9 @@
                     <v-card-text>
                         <v-window v-model="tab">
                             <v-window-item value="one">
-                                "Immerse in LexiTindream's Artistry Gallery: Where Timeless Moments Unfold"
+                                "Immerse in LexiTidream's Artistry Gallery: Where Timeless Moments Unfold"
                                 Step into a world where the fusion of photojournalism, fine-art photography, and a touch of
-                                fashion converge. LexiTindream's Artistry Gallery showcases a unique vision that draws inspiration
+                                fashion converge. LexiTidream's Artistry Gallery showcases a unique vision that draws inspiration
                                 from the interplay of light, vibrant colors, vintage aesthetics, and innovative
                                 perspectives. But above all, it is the essence of the individuals captured through the lens
                                 that breathes life into each photograph. Discover the artistry that celebrates the beauty
@@ -28,10 +28,10 @@
                             </v-window-item>
 
                             <v-window-item value="two">
-                                "Embrace the Essence of LexiTindream's Artistry Gallery: Where Light and Color Ignite Meaning"
+                                "Embrace the Essence of LexiTidream's Artistry Gallery: Where Light and Color Ignite Meaning"
                                 In a world devoid of photography, our existence would lose its significance without the
                                 interplay of light and color. These elements awaken our senses, unlocking our minds and
-                                giving voice to our passions. LexiTindream's Artistry Gallery captures this essence, drawing
+                                giving voice to our passions. LexiTidream's Artistry Gallery captures this essence, drawing
                                 inspiration from the captivating dance between light and color. Our photographs are infused
                                 with the techniques of black & white processing, reminiscent of vintage aesthetics, and
                                 imbued with a creative perspective that pushes boundaries. But at the heart of it all lies
@@ -41,9 +41,9 @@
                             </v-window-item>
 
                             <v-window-item value="three">
-                                "Unveiling LexiTindream's Artistry Gallery: Where Light, Color, and Personalities Converge"
+                                "Unveiling LexiTidream's Artistry Gallery: Where Light, Color, and Personalities Converge"
                                 Step into a realm where photography thrives, capturing the essence of light, color, and
-                                vibrant personalities. LexiTindream's Artistry Gallery blends photojournalism and fine-art
+                                vibrant personalities. LexiTidream's Artistry Gallery blends photojournalism and fine-art
                                 photography, with a touch of fashion and creative lighting. Inspired by black & white
                                 processing, vintage photos, and a creative perspective, our work transcends boundaries. Each
                                 frame is a testament to the unique personalities we photograph, weaving stories that

@@ -2,13 +2,12 @@
 import { defineStore } from 'pinia'
 import { useAppStore } from '../app'
 
-import { auth, db } from '@/plugins/firebase'
-import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage"
+import { db } from '@/plugins/firebase'
+import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 
 const app = useAppStore()
 
-export const useBlogStore = defineStore('adminBlog', {
+export const useBlogStore = defineStore('blog', {
     state: () => ({
         image: null,
         title: '',
@@ -23,19 +22,17 @@ export const useBlogStore = defineStore('adminBlog', {
         async getBlogs() {
             const q = query(collection(db, "blogs"), orderBy('dateCreated', 'desc'))
 
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const blogs = [];
-                querySnapshot.forEach((doc) => {
-                    blogs.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
-                });
+            const snapshot = await getDocs(q)
 
-                this.blogs = blogs
+            const blogs = [];
+            snapshot.forEach((doc) => {
+                blogs.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
             });
 
-            return unsubscribe
+            this.blogs = blogs
         }
     }
 })

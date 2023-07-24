@@ -2,7 +2,7 @@
     <v-container class="mt-16">
         <v-card flat class="text-center mb-5" color="transparent">
             <v-card-text class="text-h5 text-sm-h4 font-weight-bold">Contact <span
-                    class="text-indigo-accent-4">LexiTindream</span></v-card-text>
+                    class="text-indigo-accent-4">LexiTidream</span></v-card-text>
         </v-card>
 
         <v-row>

@@ -2,7 +2,7 @@
     <v-container class="pt-10">
         <div class="render__copies__section">
             <div class="render__copies__section__card" v-for="blog in paginatedBlogs" :key="blog.id">
-                <v-card :to="`/blog/${blog.id}`" class="mx-auto mb-5" rounded="xl" color="transparent" flat>
+                <v-card :to="`/blog/${blog.id}`" class="mx-auto mb-5" color="transparent" flat>
                     <v-img :src="blog?.image" cover />
                     <v-card-title>{{ blog?.title }}</v-card-title>
                     <v-card-text>
@@ -26,7 +26,6 @@ const _blog = useBlogStore();
 
 const currentPage = ref(1);
 const itemsPerPage = 20; // Number of items per page
-const viewImage = ref({ active: false })
 
 // Calculate the total number of pages based on the number of _blog and itemsPerPage
 const totalPages = computed(() => Math.ceil(_blog.blogs?.length / itemsPerPage));

@@ -13,7 +13,7 @@
                             {{ subtitle }}
                         </v-card-text>
                         <v-card-actions>
-                            <v-btn to="/register" block class="bg-indigo-accent-4 rounded-lg">Book Now</v-btn>
+                            <v-btn to="/contact" block rounded="lg" class="bg-indigo-accent-4 text-capitalize">Book Now</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-col>

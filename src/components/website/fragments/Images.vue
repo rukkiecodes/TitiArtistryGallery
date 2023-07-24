@@ -1,7 +1,9 @@
 <template>
     <v-container>
         <div class="render__copies__section">
-            <div class="render__copies__section__card" v-for="image in paginatedGallery" :key="image.id">
+            <div class="render__copies__section__card"
+                v-for="image in props.slice >= 20 ? paginatedGallery.slice(0, props.slice) : paginatedGallery"
+                :key="image.id">
                 <v-card @click="viewImage = { active: true, ...image }" rounded="0" elevation="0" color="transparent">
                     <v-img class="render__all__copies__flex__card__text__image" :src="image?.image" />
                 </v-card>
@@ -25,12 +27,16 @@
     </v-dialog>
 
     <!-- Pagination component -->
-    <v-pagination v-model="currentPage" :length="totalPages" @input="changePage" />
+    <v-pagination v-if="!props.slice >= 20" v-model="currentPage" :length="totalPages" @input="changePage" />
 </template>
-  
+
 <script setup>
 import { useGalleryStore } from "@/store/website/gallery";
 import { ref, computed } from "vue";
+
+const props = defineProps({
+    slice: Number
+})
 
 const _gallery = useGalleryStore();
 
