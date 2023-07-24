@@ -2,9 +2,11 @@
   <v-app-bar flat>
     <v-app-bar-nav-icon @click="nav.drawer = !nav.drawer" class="hidden-md-and-up" />
     <v-app-bar-title>
-      <v-icon icon="mdi-circle-slice-6" />
+      <v-avatar>
+        <v-img src="@/assets/logo.png" />
+      </v-avatar>
 
-      Essentials Preset
+      LexiTidream
     </v-app-bar-title>
 
     <v-spacer />
