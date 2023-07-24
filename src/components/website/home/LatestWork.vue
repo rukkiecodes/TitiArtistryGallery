@@ -5,14 +5,10 @@
                     class="text-indigo-accent-4">Works</span></v-card-text>
         </v-card>
 
-        <Images :slice="50" />
+        <Images :slice="20" />
     </v-container>
 </template>
 
 <script setup>
-import { useGalleryStore } from "@/store/website/gallery";
-import { ref } from "vue";
 import Images from '@/components/website/fragments/Images.vue'
-
-const images = ref(useGalleryStore())
 </script>

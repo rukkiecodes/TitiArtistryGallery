@@ -31,17 +31,23 @@ const routes = [
       {
         path: 'blog',
         name: 'web.blog',
-        component: () => import('@/views/website/Blog.vue'),
+        component: () => import('@/views/website/blog/Blog.vue'),
+
+        children: [
+          {
+            path: '',
+            component: () => import('@/views/website/blog/Blogs.vue')
+          },
+          {
+            path: ':id',
+            component: () => import('@/views/website/blog/ViewBlog.vue')
+          }
+        ]
       },
       {
         path: 'contact',
         name: 'web.contact',
         component: () => import('@/views/website/Contact.vue'),
-      },
-      {
-        path: 'booking',
-        name: 'web.booking',
-        component: () => import('@/views/website/Booking.vue'),
       }
     ],
   },

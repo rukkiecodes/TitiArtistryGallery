@@ -1,63 +1,65 @@
 <template>
-    <v-row no-gutters>
-        <v-col cols="12" sm="6" v-for="(image, i) in (slice < 10 ? images.gallery : images.gallery?.slice(0, 10))" :key="i">
-            <v-hover>
-                <template v-slot:default="{ isHovering, props }">
-                    <v-img :src="image.image" v-bind="props" @click="viewImage = { active: true, ...image }" cover
-                        max-height="500" class="align-end justify-start"
-                        :gradient="isHovering ? 'rgba(0,0,0,0.4), rgba(0,0,0,0.4)' : 'rgba(0,0,0,0), rgba(0,0,0,0)'">
-                        <v-fade-transition>
-                            <v-card v-if="isHovering" color="transparent">
-                                <v-card-text class="text-center font-weight-light text-h3 text-white"
-                                    style="line-height: 1em;">{{ image.title }}</v-card-text>
-                                <v-card-text class="text-center text-white">{{ image.body }}</v-card-text>
-                            </v-card>
-                        </v-fade-transition>
-                    </v-img>
-                </template>
-            </v-hover>
-        </v-col>
+    <v-container>
+        <div class="render__copies__section">
+            <div class="render__copies__section__card"
+                v-for="image in props.slice >= 20 ? paginatedGallery.slice(0, props.slice) : paginatedGallery"
+                :key="image.id">
+                <v-card @click="viewImage = { active: true, ...image }" rounded="0" elevation="0" color="transparent">
+                    <v-img class="render__all__copies__flex__card__text__image" :src="image?.image" />
+                </v-card>
+            </div>
+        </div>
+    </v-container>
 
-        <v-dialog v-model="viewImage.active" width="600" max-width="800">
-            <v-card rounded="lg">
-                <v-toolbar color="transparent" elevation="0" density="comfortable">
-                    <v-spacer />
-                    <v-btn @click="viewImage.active = false" icon>
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
+    <v-dialog v-model="viewImage.active" width="600" max-width="800">
+        <v-card rounded="lg">
+            <v-toolbar color="transparent" elevation="0" density="comfortable">
+                <v-spacer />
+                <v-btn @click="viewImage.active = false" icon>
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+            </v-toolbar>
 
-                <v-card-text>
-                    <v-img :src="viewImage.image" />
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-    </v-row>
+            <v-card-text>
+                <v-img :src="viewImage.image" />
+            </v-card-text>
+        </v-card>
+    </v-dialog>
+
+    <!-- Pagination component -->
+    <v-pagination v-if="!props.slice >= 20" v-model="currentPage" :length="totalPages" @input="changePage" />
 </template>
 
-<script>
-import { useGalleryStore } from '@/store/website/gallery';
-import gallery from '@/views/website/gallery';
-import router from '@/router';
+<script setup>
+import { useGalleryStore } from "@/store/website/gallery";
+import { ref, computed } from "vue";
 
-export default {
-    props: {
-        slice: {
-            type: Number,
-            default: 10,
-        }
-    },
+const props = defineProps({
+    slice: Number
+})
 
-    data: () => ({
-        viewImage: { active: false }
-    }),
+const _gallery = useGalleryStore();
 
-    setup() {
-        const images = useGalleryStore()
+const currentPage = ref(1);
+const itemsPerPage = 50; // Number of items per page
+const viewImage = ref({ active: false })
 
-        return {
-            images
-        }
-    },
-};
+// Calculate the total number of pages based on the number of _gallery and itemsPerPage
+const totalPages = computed(() => Math.ceil(_gallery.gallery?.length / itemsPerPage));
+
+// Calculate the index of the first and last item to be displayed on the current page
+const startIndex = computed(() => (currentPage.value - 1) * itemsPerPage);
+const endIndex = computed(() => startIndex.value + itemsPerPage);
+
+// Slice the _gallery array based on the startIndex and endIndex
+const paginatedGallery = computed(() => _gallery.gallery?.slice(startIndex.value, endIndex.value));
+
+// Function to handle page change
+function changePage(page) {
+    currentPage.value = page;
+}
 </script>
+  
+<style lang="scss" scoped>
+@import '@/assets/style/gallery.scss'
+</style>

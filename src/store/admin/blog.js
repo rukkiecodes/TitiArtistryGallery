@@ -2,9 +2,9 @@
 import { defineStore } from 'pinia'
 import { useAppStore } from '../app'
 
-import { auth, db } from '@/plugins/firebase'
-import { addDoc, collection, doc, onSnapshot, serverTimestamp, updateDoc } from 'firebase/firestore'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage"
+import { db } from '@/plugins/firebase'
+import { addDoc, collection, onSnapshot, serverTimestamp } from 'firebase/firestore'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 const app = useAppStore()
 

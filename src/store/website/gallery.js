@@ -15,7 +15,8 @@ export const useGalleryStore = defineStore('gallery', {
 
         loading: false,
 
-        gallery: []
+        gallery: [],
+        folders: []
     }),
 
     actions: {
@@ -33,6 +34,36 @@ export const useGalleryStore = defineStore('gallery', {
             })
 
             this.gallery = array
-        }
+        },
+
+        async getFolders() {
+            const q = query(collection(db, "gallery"), where('documentType', '==', 'folder'))
+
+            const snapshot = await getDocs(q)
+            const folders = [];
+            snapshot.forEach((doc) => {
+                folders.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+
+            // this.folders = folders
+
+            let collectiveImages = []
+
+            folders.forEach(async document => {
+                let snapshot = await getDocs(collection(db, "gallery", document.id, 'images'))
+
+                snapshot.forEach(doc => {
+                    collectiveImages.push({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                })
+            })
+
+            this.gallery = collectiveImages
+        },
     }
 })
