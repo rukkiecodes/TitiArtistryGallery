@@ -14,4 +14,13 @@ import Head from '@/components/website/fragments/Head.vue'
 import LatestWork from '@/components/website/home/LatestWork.vue'
 import About from '@/components/website/home/About.vue'
 import Contact from '@/components/website/home/Contact.vue'
+import { useGalleryStore } from '@/store/website/gallery'
+import { onMounted } from 'vue'
+
+const gallery = useGalleryStore()
+
+onMounted(() => { 
+    // gallery.getGallery()
+    // gallery.getFolders()
+})
 </script>

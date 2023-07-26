@@ -1,17 +1,18 @@
 <template>
     <v-container>
         <div class="render__copies__section">
-            <div class="render__copies__section__card"
+            <FindImageVue :images="_gallery.gallery" />
+            <!-- <div class="render__copies__section__card"
                 v-for="image in props.slice >= 20 ? paginatedGallery.slice(0, props.slice) : paginatedGallery"
                 :key="image.id">
                 <v-card @click="viewImage = { active: true, ...image }" rounded="0" elevation="0" color="transparent">
                     <v-img class="render__all__copies__flex__card__text__image" :src="image?.image" />
                 </v-card>
-            </div>
+            </div> -->
         </div>
     </v-container>
 
-    <v-dialog v-model="viewImage.active" width="600" max-width="800">
+    <!-- <v-dialog v-model="viewImage.active" width="600" max-width="800">
         <v-card rounded="lg">
             <v-toolbar color="transparent" elevation="0" density="comfortable">
                 <v-spacer />
@@ -24,15 +25,16 @@
                 <v-img :src="viewImage.image" />
             </v-card-text>
         </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
     <!-- Pagination component -->
-    <v-pagination v-if="!props.slice >= 20" v-model="currentPage" :length="totalPages" @input="changePage" />
+    <!-- <v-pagination v-if="!props.slice >= 20" v-model="currentPage" :length="totalPages" @input="changePage" /> -->
 </template>
 
 <script setup>
 import { useGalleryStore } from "@/store/website/gallery";
 import { ref, computed } from "vue";
+import FindImageVue from "./FindImage.vue";
 
 const props = defineProps({
     slice: Number
